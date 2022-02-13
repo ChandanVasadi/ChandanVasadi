@@ -1,0 +1,1795 @@
+{
+	"name": "ODS_LoadPolicies",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyCosmosDBPoliciesToADLS",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set CosmsoDB Policy Query",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CosmosDbSqlApiSource",
+						"query": {
+							"value": "@variables('CosmosdbQuery')",
+							"type": "Expression"
+						},
+						"preferredRegions": [],
+						"detectDatetime": true
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['CountryName']"
+								},
+								"sink": {
+									"name": "CountryName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['CountryCode']"
+								},
+								"sink": {
+									"name": "CountryCode"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RegionName']"
+								},
+								"sink": {
+									"name": "RegionName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RegionCode']"
+								},
+								"sink": {
+									"name": "RegionCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Jurisdiction']"
+								},
+								"sink": {
+									"name": "Jurisdiction"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Date']"
+								},
+								"sink": {
+									"name": "Date"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C1_School closing']"
+								},
+								"sink": {
+									"name": "C1_School closing"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C1_Flag']"
+								},
+								"sink": {
+									"name": "C1_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C2_Workplace closing']"
+								},
+								"sink": {
+									"name": "C2_Workplace closing"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C2_Flag']"
+								},
+								"sink": {
+									"name": "C2_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C3_Cancel public events']"
+								},
+								"sink": {
+									"name": "C3_Cancel public events"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C3_Flag']"
+								},
+								"sink": {
+									"name": "C3_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C4_Restrictions on gatherings']"
+								},
+								"sink": {
+									"name": "C4_Restrictions on gatherings"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C4_Flag']"
+								},
+								"sink": {
+									"name": "C4_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C5_Close public transport']"
+								},
+								"sink": {
+									"name": "C5_Close public transport"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C5_Flag']"
+								},
+								"sink": {
+									"name": "C5_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C6_Stay at home requirements']"
+								},
+								"sink": {
+									"name": "C6_Stay at home requirements"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C6_Flag']"
+								},
+								"sink": {
+									"name": "C6_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C7_Restrictions on internal movement']"
+								},
+								"sink": {
+									"name": "C7_Restrictions on internal movement"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C7_Flag']"
+								},
+								"sink": {
+									"name": "C7_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['C8_International travel controls']"
+								},
+								"sink": {
+									"name": "C8_International travel controls"
+								}
+							},
+							{
+								"source": {
+									"path": "$['E1_Income support']"
+								},
+								"sink": {
+									"name": "E1_Income support"
+								}
+							},
+							{
+								"source": {
+									"path": "$['E1_Flag']"
+								},
+								"sink": {
+									"name": "E1_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['E2_Debt contract relief']"
+								},
+								"sink": {
+									"name": "E2_Debt contract relief"
+								}
+							},
+							{
+								"source": {
+									"path": "$['E3_Fiscal measures']"
+								},
+								"sink": {
+									"name": "E3_Fiscal measures"
+								}
+							},
+							{
+								"source": {
+									"path": "$['E4_International support']"
+								},
+								"sink": {
+									"name": "E4_International support"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H1_Public information campaigns']"
+								},
+								"sink": {
+									"name": "H1_Public information campaigns"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H1_Flag']"
+								},
+								"sink": {
+									"name": "H1_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H2_Testing policy']"
+								},
+								"sink": {
+									"name": "H2_Testing policy"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H3_Contact tracing']"
+								},
+								"sink": {
+									"name": "H3_Contact tracing"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H4_Emergency investment in healthcare']"
+								},
+								"sink": {
+									"name": "H4_Emergency investment in healthcare"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H5_Investment in vaccines']"
+								},
+								"sink": {
+									"name": "H5_Investment in vaccines"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H6_Facial Coverings']"
+								},
+								"sink": {
+									"name": "H6_Facial Coverings"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H6_Flag']"
+								},
+								"sink": {
+									"name": "H6_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H7_Vaccination policy']"
+								},
+								"sink": {
+									"name": "H7_Vaccination policy"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H7_Flag']"
+								},
+								"sink": {
+									"name": "H7_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H8_Protection of elderly people']"
+								},
+								"sink": {
+									"name": "H8_Protection of elderly people"
+								}
+							},
+							{
+								"source": {
+									"path": "$['H8_Flag']"
+								},
+								"sink": {
+									"name": "H8_Flag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['M1_Wildcard']"
+								},
+								"sink": {
+									"name": "M1_Wildcard"
+								}
+							},
+							{
+								"source": {
+									"path": "$['StringencyIndex']"
+								},
+								"sink": {
+									"name": "StringencyIndex",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['StringencyIndexForDisplay']"
+								},
+								"sink": {
+									"name": "StringencyIndexForDisplay",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['StringencyLegacyIndex']"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndex",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['StringencyLegacyIndexForDisplay']"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndexForDisplay",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['GovernmentResponseIndex']"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndex",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['GovernmentResponseIndexForDisplay']"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndexForDisplay",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ContainmentHealthIndex']"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndex",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ContainmentHealthIndexForDisplay']"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndexForDisplay",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EconomicSupportIndex']"
+								},
+								"sink": {
+									"name": "EconomicSupportIndex",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EconomicSupportIndexForDisplay']"
+								},
+								"sink": {
+									"name": "EconomicSupportIndexForDisplay",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['id']"
+								},
+								"sink": {
+									"name": "id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['_rid']"
+								},
+								"sink": {
+									"name": "_rid"
+								}
+							},
+							{
+								"source": {
+									"path": "$['_self']"
+								},
+								"sink": {
+									"name": "_self"
+								}
+							},
+							{
+								"source": {
+									"path": "$['_etag']"
+								},
+								"sink": {
+									"name": "_etag"
+								}
+							},
+							{
+								"source": {
+									"path": "$['_attachments']"
+								},
+								"sink": {
+									"name": "_attachments"
+								}
+							},
+							{
+								"source": {
+									"path": "$['_ts']"
+								},
+								"sink": {
+									"name": "_ts"
+								}
+							}
+						],
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Covid19CosmosDBPolicies",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CosmosDBPolicies2",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderName": {
+								"value": "@concat('Source/Azure CosmosDB/',formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'mm'),'/',formatDateTime(utcnow(),'dd'))",
+								"type": "Expression"
+							},
+							"FileName": "CosmosDBPolicies.csv",
+							"Container": "caldancovid19"
+						}
+					}
+				]
+			},
+			{
+				"name": "Set CosmsoDB Policy Query",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CosmosdbQuery",
+					"value": {
+						"value": "@concat('select * from c where c.Date >=''','2020-01-01')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "CopyCosmosDBPoliciesToADLS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "Truncate table stg.Policies",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CountryName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CountryName",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CountryCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CountryCode",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Date",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "RegionName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RegionName",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "RegionCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RegionCode",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Jurisdiction",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Jurisdiction",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "C1_School closing",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C1SchoolClosing",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C1_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C1Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C2_Workplace closing",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C2WorkplaceClosing",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C2_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C2Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C3_Cancel public events",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C3CancelPublicEvents",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C3_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C3Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C4_Restrictions on gatherings",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C4RestrictionsOnGatherings",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C4_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C4Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C5_Close public transport",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C5ClosePublicTransport",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C5_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C5Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C6_Stay at home requirements",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C6StayAtHomeRequirements",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C6_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C6Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C7_Restrictions on internal movement",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C7RestrictionsOnInternalMovement",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C7_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C7Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "C8_International travel controls",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "C8InternationalTravelControls",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "E1_Income support",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "E1IncomeSupport",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "E1_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "E1Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "E2_Debt contract relief",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "E2DebtContractRelief",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "E3_Fiscal measures",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "E3FiscalMeasures",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "E4_International support",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "E4InternationalSupport",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H1_Public information campaigns",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H1PublicInformationCampaigns",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H1_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H1Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H2_Testing policy",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H2TestingPolicy",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H3_Contact tracing",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H3ContactTracing",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H4_Emergency investment in healthcare",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H4EmergencyInvestmentInHealthcare",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H5_Investment in vaccines",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H5InvestmentInVaccines",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H6_Facial Coverings",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H6FacialCoverings",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H6_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H6Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H7_Vaccination policy",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H7VaccinationPolicy",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H7_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H7Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H8_Protection of elderly people",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H8ProtectionOfElderlyPeople",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "H8_Flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H8Flag",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "M1_Wildcard",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "M1Wildcard",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyIndex",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StringencyIndex",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyIndexForDisplay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StringencyIndexForDisplay",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyLegacyIndex",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndex",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyLegacyIndexForDisplay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndexForDisplay",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "GovernmentResponseIndex",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndex",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "GovernmentResponseIndexForDisplay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndexForDisplay",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "ContainmentHealthIndex",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndex",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "ContainmentHealthIndexForDisplay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndexForDisplay",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "EconomicSupportIndex",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EconomicSupportIndex",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "EconomicSupportIndexForDisplay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EconomicSupportIndexForDisplay",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CosmosDBPolicies2",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderName": "/Source/Azure CosmosDB/",
+							"FileName": "CosmosDBPolicies.csv",
+							"Container": "caldancovid19"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSql",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": "Policies",
+							"SchemaName": "stg",
+							"Servername": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+							"Database": "Covid19"
+						}
+					}
+				]
+			},
+			{
+				"name": "Load ODS Policies",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[usp_load_CovidPolicies]"
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSqlDB_SQLAuth",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"ServerName": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+						"Database": "Covid19ODS"
+					}
+				}
+			},
+			{
+				"name": "Load DWH",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Load ODS Policies",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"allowCopyCommand": true
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "Covid19ADLS",
+							"type": "LinkedServiceReference"
+						},
+						"path": "caldancovid19/Staging/AzSynapase"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GeographyID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "GeographyID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Jurisdiction",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Jurisdiction",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "C1SchoolClosing",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C1SchoolClosing",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C1Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C1Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C2WorkplaceClosing",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C2WorkplaceClosing",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C2Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C2Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C3CancelPublicEvents",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C3CancelPublicEvents",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C3Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C3Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C4RestrictionsOnGatherings",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C4RestrictionsOnGatherings",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C4Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C4Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C5ClosePublicTransport",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C5ClosePublicTransport",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C5Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C5Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C6StayAtHomeRequirements",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C6StayAtHomeRequirements",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C6Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C6Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C7RestrictionsOnInternalMovement",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C7RestrictionsOnInternalMovement",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C7Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C7Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "C8InternationalTravelControls",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "C8InternationalTravelControls",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "E1IncomeSupport",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "E1IncomeSupport",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "E1Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "E1Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "E2DebtContractRelief",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "E2DebtContractRelief",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "E3FiscalMeasures",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "E3FiscalMeasures",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "E4InternationalSupport",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "E4InternationalSupport",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "H1PublicInformationCampaigns",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H1PublicInformationCampaigns",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H1Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H1Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H2TestingPolicy",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H2TestingPolicy",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H3ContactTracing",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H3ContactTracing",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H4EmergencyInvestmentInHealthcare",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "H4EmergencyInvestmentInHealthcare",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "H5InvestmentInVaccines",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "H5InvestmentInVaccines",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "H6FacialCoverings",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H6FacialCoverings",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H6Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H6Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H7VaccinationPolicy",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H7VaccinationPolicy",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H7Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H7Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H8ProtectionOfElderlyPeople",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H8ProtectionOfElderlyPeople",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "H8Flag",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "H8Flag",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "M1Wildcard",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "M1Wildcard",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyIndex",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "StringencyIndex",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyIndexForDisplay",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "StringencyIndexForDisplay",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyLegacyIndex",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndex",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "StringencyLegacyIndexForDisplay",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "StringencyLegacyIndexForDisplay",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "GovernmentResponseIndex",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndex",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "GovernmentResponseIndexForDisplay",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "GovernmentResponseIndexForDisplay",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "ContainmentHealthIndex",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndex",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "ContainmentHealthIndexForDisplay",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "ContainmentHealthIndexForDisplay",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "EconomicSupportIndex",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "EconomicSupportIndex",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "EconomicSupportIndexForDisplay",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "EconomicSupportIndexForDisplay",
+									"type": "Single"
+								}
+							},
+							{
+								"source": {
+									"name": "id",
+									"type": "String"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ETLCreatedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "ETLCreatedDate",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSql",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": "Policies",
+							"SchemaName": "ods",
+							"Servername": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+							"Database": "Covid19ODS"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ASA_Covid19_DWH",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "FactPolicies"
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"CosmosdbQuery": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Final"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-02-11T07:07:24Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

@@ -1,0 +1,45 @@
+{
+	"name": "Parquet_SqlDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Covid19ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string",
+				"defaultValue": "Country"
+			},
+			"Folder": {
+				"type": "string",
+				"defaultValue": "Source/Azure SQL"
+			},
+			"Container": {
+				"type": "string",
+				"defaultValue": "caldancovid19"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().Folder",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().Container",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

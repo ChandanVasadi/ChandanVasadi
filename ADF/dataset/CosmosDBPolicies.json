@@ -1,0 +1,22 @@
+{
+	"name": "CosmosDBPolicies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Covid19ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "CosmodbPolicies.parquet",
+				"folderPath": "Source/Azure CosmosDB",
+				"fileSystem": "caldancovid19"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

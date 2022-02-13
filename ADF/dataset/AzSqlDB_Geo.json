@@ -1,0 +1,57 @@
+{
+	"name": "AzSqlDB_Geo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSqlDB_SQLAuth",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+				"Database": "Covid19ODS"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GeographyId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "CountryCode",
+				"type": "varchar"
+			},
+			{
+				"name": "Latitude",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 5
+			},
+			{
+				"name": "Longitude",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 5
+			},
+			{
+				"name": "Source",
+				"type": "varchar"
+			},
+			{
+				"name": "ETLCreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "ods",
+			"table": "Geography"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

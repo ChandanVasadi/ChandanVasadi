@@ -1,0 +1,25 @@
+{
+	"name": "ODSRecoveries",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Covid19ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Recoveries.parquet",
+				"folderPath": {
+					"value": "@concat('ODS/Recoveries/',formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "caldancovid19"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

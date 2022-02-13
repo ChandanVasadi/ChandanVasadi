@@ -1,0 +1,28 @@
+{
+	"name": "ODSCases",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Covid19ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "Cases.parquet",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('ODS/Cases/',formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "caldancovid19"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

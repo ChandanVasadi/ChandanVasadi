@@ -1,0 +1,67 @@
+{
+	"name": "AzSQLDB_Deaths",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSqlDB_SQLAuth",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+				"Database": "Covid19ODS"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "GeographyId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Deaths",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DeathsChange",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceLoadTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Source",
+				"type": "varchar"
+			},
+			{
+				"name": "ETLCreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Datekey",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "ods",
+			"table": "Covid19Deaths"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

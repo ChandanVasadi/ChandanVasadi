@@ -1,0 +1,273 @@
+{
+	"name": "AzSqlDB_Policies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSqlDB_SQLAuth",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "covid19-sqlserver-rkajldojajrzy.database.windows.net",
+				"Database": "Covid19ODS"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GeographyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "RegionName",
+				"type": "varchar"
+			},
+			{
+				"name": "RegionCode",
+				"type": "varchar"
+			},
+			{
+				"name": "Jurisdiction",
+				"type": "varchar"
+			},
+			{
+				"name": "C1SchoolClosing",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C1Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C2WorkplaceClosing",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C2Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C3CancelPublicEvents",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C3Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C4RestrictionsOnGatherings",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C4Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C5ClosePublicTransport",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C5Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C6StayAtHomeRequirements",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C6Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C7RestrictionsOnInternalMovement",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C7Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "C8InternationalTravelControls",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "E1IncomeSupport",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "E1Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "E2DebtContractRelief",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "E3FiscalMeasures",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "E4InternationalSupport",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "H1PublicInformationCampaigns",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H1Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H2TestingPolicy",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H3ContactTracing",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H4EmergencyInvestmentInHealthcare",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "H5InvestmentInVaccines",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "H6FacialCoverings",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H6Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H7VaccinationPolicy",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H7Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H8ProtectionOfElderlyPeople",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "H8Flag",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "M1Wildcard",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "StringencyIndex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "StringencyIndexForDisplay",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "StringencyLegacyIndex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "StringencyLegacyIndexForDisplay",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "GovernmentResponseIndex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "GovernmentResponseIndexForDisplay",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ContainmentHealthIndex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ContainmentHealthIndexForDisplay",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "EconomicSupportIndex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "EconomicSupportIndexForDisplay",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "id",
+				"type": "varchar"
+			},
+			{
+				"name": "ETLCreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Datekey",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "ods",
+			"table": "Policies"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

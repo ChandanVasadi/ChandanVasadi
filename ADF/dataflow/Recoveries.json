@@ -1,0 +1,51 @@
+{
+	"name": "Recoveries",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CSV_AzureSQLDB",
+						"type": "DatasetReference"
+					},
+					"name": "Covid19AzureSQLCases"
+				},
+				{
+					"dataset": {
+						"referenceName": "CSV_AzureSQLDB",
+						"type": "DatasetReference"
+					},
+					"name": "CovidMetricOnPremCases"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CSV_AzureSQLDB",
+						"type": "DatasetReference"
+					},
+					"name": "ODSRecoveries"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddSourceFlag"
+				},
+				{
+					"name": "SelectAzureSQL"
+				},
+				{
+					"name": "AddSourceFlagOnPrem"
+				},
+				{
+					"name": "SelectOnPremSQL"
+				},
+				{
+					"name": "UnionData"
+				}
+			],
+			"script": "source(output(\n\t\tID as string,\n\t\tUpdated as string,\n\t\tConfirmed as string,\n\t\tConfirmed_Change as string,\n\t\tDeaths as string,\n\t\tDeaths_Change as string,\n\t\tRecovered as string,\n\t\tRecovered_Change as string,\n\t\tLatitude as string,\n\t\tLongitude as string,\n\t\tISO2 as string,\n\t\tISO3 as string,\n\t\tCountry_Region as string,\n\t\tload_time as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Covid19AzureSQLCases\nsource(output(\n\t\tID as string,\n\t\tUpdated as string,\n\t\tConfirmed as string,\n\t\tConfirmed_Change as string,\n\t\tDeaths as string,\n\t\tDeaths_Change as string,\n\t\tRecovered as string,\n\t\tRecovered_Change as string,\n\t\tLatitude as string,\n\t\tLongitude as string,\n\t\tISO2 as string,\n\t\tISO3 as string,\n\t\tCountry_Region as string,\n\t\tload_time as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> CovidMetricOnPremCases\nCovid19AzureSQLCases derive(SourceFlag = \"AzureSQL\") ~> AddSourceFlag\nAddSourceFlag select(mapColumn(\n\t\tID,\n\t\tDate = Updated,\n\t\tRecoveredCases = Recovered,\n\t\tRecoveredChange = Recovered_Change,\n\t\tCountryCode = ISO3,\n\t\tLoadTime = load_time,\n\t\tSourceFlag\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectAzureSQL\nCovidMetricOnPremCases derive(SourceFlag = \"OnPrem\") ~> AddSourceFlagOnPrem\nAddSourceFlagOnPrem select(mapColumn(\n\t\tID,\n\t\tDate = Updated,\n\t\tRecoveredCases = Recovered,\n\t\tRecoveredChange = Recovered_Change,\n\t\tCountryCode = ISO3,\n\t\tLoadTime = load_time,\n\t\tSourceFlag\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectOnPremSQL\nSelectAzureSQL, SelectOnPremSQL union(byName: true)~> UnionData\nUnionData sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID as string,\n\t\tUpdated as string,\n\t\tConfirmed as string,\n\t\tConfirmed_Change as string,\n\t\tDeaths as string,\n\t\tDeaths_Change as string,\n\t\tRecovered as string,\n\t\tRecovered_Change as string,\n\t\tLatitude as string,\n\t\tLongitude as string,\n\t\tISO2 as string,\n\t\tISO3 as string,\n\t\tCountry_Region as string,\n\t\tload_time as string\n\t),\n\tpartitionFileNames:['Recoveries.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> ODSRecoveries"
+		}
+	}
+}

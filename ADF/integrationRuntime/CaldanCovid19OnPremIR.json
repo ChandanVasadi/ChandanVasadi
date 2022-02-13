@@ -1,0 +1,6 @@
+{
+	"name": "CaldanCovid19OnPremIR",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

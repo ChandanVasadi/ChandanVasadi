@@ -1,0 +1,17 @@
+{
+	"name": "LS_Covid19OnPremSQL",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=covid19;initial catalog=covid19",
+			"userName": "vmadmin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjYmEzYTM1Yy02Y2I2LTRhNGMtYTI3OC1jNmU4ZmU0YzlkMDciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "CaldanCovid19OnPremIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

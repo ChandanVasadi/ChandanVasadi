@@ -1,0 +1,28 @@
+{
+	"name": "PoliciesFromODSToDWH",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzSqlDB_Policies",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPolicies"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ASA_Covid19_DWH",
+						"type": "DatasetReference"
+					},
+					"name": "DWHFactPolicies"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tGeographyID as integer,\n\t\tDate as date,\n\t\tRegionName as string,\n\t\tRegionCode as string,\n\t\tJurisdiction as string,\n\t\tC1SchoolClosing as integer,\n\t\tC1Flag as integer,\n\t\tC2WorkplaceClosing as integer,\n\t\tC2Flag as integer,\n\t\tC3CancelPublicEvents as integer,\n\t\tC3Flag as integer,\n\t\tC4RestrictionsOnGatherings as integer,\n\t\tC4Flag as integer,\n\t\tC5ClosePublicTransport as integer,\n\t\tC5Flag as integer,\n\t\tC6StayAtHomeRequirements as integer,\n\t\tC6Flag as integer,\n\t\tC7RestrictionsOnInternalMovement as integer,\n\t\tC7Flag as integer,\n\t\tC8InternationalTravelControls as integer,\n\t\tE1IncomeSupport as integer,\n\t\tE1Flag as integer,\n\t\tE2DebtContractRelief as integer,\n\t\tE3FiscalMeasures as double,\n\t\tE4InternationalSupport as double,\n\t\tH1PublicInformationCampaigns as integer,\n\t\tH1Flag as integer,\n\t\tH2TestingPolicy as integer,\n\t\tH3ContactTracing as integer,\n\t\tH4EmergencyInvestmentInHealthcare as double,\n\t\tH5InvestmentInVaccines as double,\n\t\tH6FacialCoverings as integer,\n\t\tH6Flag as integer,\n\t\tH7VaccinationPolicy as integer,\n\t\tH7Flag as integer,\n\t\tH8ProtectionOfElderlyPeople as integer,\n\t\tH8Flag as integer,\n\t\tM1Wildcard as integer,\n\t\tStringencyIndex as double,\n\t\tStringencyIndexForDisplay as double,\n\t\tStringencyLegacyIndex as double,\n\t\tStringencyLegacyIndexForDisplay as double,\n\t\tGovernmentResponseIndex as double,\n\t\tGovernmentResponseIndexForDisplay as double,\n\t\tContainmentHealthIndex as double,\n\t\tContainmentHealthIndexForDisplay as double,\n\t\tEconomicSupportIndex as double,\n\t\tEconomicSupportIndexForDisplay as double,\n\t\tid as string,\n\t\tETLCreatedDate as timestamp,\n\t\tDatekey as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPolicies\nODSPolicies sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tstaged: true,\n\tallowCopyCommand: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DWHFactPolicies"
+		}
+	}
+}

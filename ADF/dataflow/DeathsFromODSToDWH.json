@@ -1,0 +1,28 @@
+{
+	"name": "DeathsFromODSToDWH",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzSQLDB_Deaths",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDeaths"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ASA_Covid19_DWH",
+						"type": "DatasetReference"
+					},
+					"name": "DWHFactDeaths"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID as integer,\n\t\tDate as date,\n\t\tGeographyId as integer,\n\t\tDeaths as integer,\n\t\tDeathsChange as integer,\n\t\tSourceLoadTime as timestamp,\n\t\tSource as string,\n\t\tETLCreatedDate as timestamp,\n\t\tDatekey as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDeaths\nODSDeaths sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tstaged: true,\n\tallowCopyCommand: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID,\n\t\tDate,\n\t\tGeographyId,\n\t\tDeaths,\n\t\tDeathsChange,\n\t\tSourceLoadTime,\n\t\tSource,\n\t\tETLCreatedDate,\n\t\tDatekey\n\t)) ~> DWHFactDeaths"
+		}
+	}
+}

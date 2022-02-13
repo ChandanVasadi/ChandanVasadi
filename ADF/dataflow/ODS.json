@@ -1,0 +1,101 @@
+{
+	"name": "ODS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_CovidMetrics",
+						"type": "DatasetReference"
+					},
+					"name": "AzureSQL"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_CovidMetrics",
+						"type": "DatasetReference"
+					},
+					"name": "OnPrem"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSQLGeography_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "azure"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSQLGeography_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "geoonpremsql"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODSCases",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCases"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODSGeography",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODSDeaths",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDeaths"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODSRecoveries",
+						"type": "DatasetReference"
+					},
+					"name": "ODSReceoveries"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddSourceFlag"
+				},
+				{
+					"name": "AddSrcflag"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "Window1"
+				},
+				{
+					"name": "DerivedColumn3"
+				}
+			],
+			"script": "source(output(\n\t\tID as integer,\n\t\tUpdated as date,\n\t\tConfirmed as integer,\n\t\tConfirmed_Change as integer,\n\t\tDeaths as integer,\n\t\tDeaths_Change as integer,\n\t\tRecovered as integer,\n\t\tRecovered_Change as integer,\n\t\tLatitude as string,\n\t\tLongitude as string,\n\t\tISO2 as string,\n\t\tISO3 as string,\n\t\tCountry_Region as string,\n\t\tload_time as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> AzureSQL\nsource(output(\n\t\tID as integer,\n\t\tUpdated as date,\n\t\tConfirmed as integer,\n\t\tConfirmed_Change as integer,\n\t\tDeaths as integer,\n\t\tDeaths_Change as integer,\n\t\tRecovered as integer,\n\t\tRecovered_Change as integer,\n\t\tLatitude as string,\n\t\tLongitude as string,\n\t\tISO2 as string,\n\t\tISO3 as string,\n\t\tCountry_Region as string,\n\t\tload_time as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> OnPrem\nsource(output(\n\t\tCountry as string,\n\t\tCountryCode as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> azure\nsource(output(\n\t\tCountry as string,\n\t\tCountryCode as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> geoonpremsql\nAzureSQL derive(Source = \"AzureSQL\",\n\tpartitionBy('hash', 1)) ~> AddSourceFlag\nOnPrem derive(Source = \"OnPrem\",\n\tpartitionBy('hash', 1)) ~> AddSrcflag\nAddSourceFlag, AddSrcflag union(byName: true,\n\tpartitionBy('hash', 1))~> Union1\nazure derive(source = \"AzureSQL\") ~> DerivedColumn1\ngeoonpremsql derive(source = \"OnPrem\") ~> DerivedColumn2\nDerivedColumn1, DerivedColumn2 union(byName: true,\n\tpartitionBy('hash', 1))~> Union2\nWindow1 filter(RowVersion==1) ~> Filter1\nFilter1 alterRow(upsertIf(true())) ~> AlterRow1\nUnion2 window(over(CountryCode),\n\tasc(source, true),\n\tRowVersion = denseRank()) ~> Window1\nUnion1 derive(ETLCreatedDate = currentDate()) ~> DerivedColumn3\nDerivedColumn3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tID,\n\t\tDate = Updated,\n\t\tConfirmedCases = Confirmed,\n\t\tConfirmedChange = Confirmed_Change,\n\t\tCountryCode = ISO3,\n\t\tLoadTime = load_time,\n\t\tSource,\n\t\tETLCreatedDatetime = ETLCreatedDate\n\t)) ~> ODSCases\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tCountry,\n\t\tCountryCode,\n\t\tLatitude,\n\t\tLongitude,\n\t\tsource\n\t)) ~> sink1\nDerivedColumn3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tID,\n\t\tDate = Updated,\n\t\tDeaths,\n\t\tDeathsChange = Deaths_Change,\n\t\tCountryCode = ISO3,\n\t\tLoadTime = load_time,\n\t\tSource,\n\t\tETLCreatedDate\n\t)) ~> ODSDeaths\nDerivedColumn3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tID,\n\t\tDate = Updated,\n\t\tRecoveredCases = Recovered,\n\t\tRecoveredChange = Recovered_Change,\n\t\tCountryCode = ISO3,\n\t\tLoadTime = load_time,\n\t\tSource,\n\t\tETLCreatedDate\n\t)) ~> ODSReceoveries"
+		}
+	}
+}
